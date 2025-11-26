@@ -1,1 +1,1 @@
-web: gunicorn MEDISAFE_PBL.wsgi:application
+web: gunicorn PBL.MEDISAFE_PBL.wsgi:application
