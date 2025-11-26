@@ -3,6 +3,8 @@
 import os
 import sys
 
+# Add PBL folder to Python path to find MEDISAFE_PBL module
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'PBL'))
 
 def main():
     """Run administrative tasks."""
