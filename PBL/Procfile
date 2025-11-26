@@ -1,0 +1,1 @@
+web: gunicorn MEDISAFE_PBL.wsgi:application
