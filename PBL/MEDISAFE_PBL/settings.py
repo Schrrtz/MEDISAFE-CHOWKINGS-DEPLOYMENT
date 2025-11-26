@@ -216,7 +216,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (User uploaded files)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = BASE_DIR.parent / 'media'  # Points to PBL/media/
 
 # Optional: Use S3 for media files in production
 if not DEBUG and os.getenv('USE_S3', 'False') == 'True':
