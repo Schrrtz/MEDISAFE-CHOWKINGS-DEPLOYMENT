@@ -1,1 +1,1 @@
-web: python PBL/manage.py collectstatic --noinput && gunicorn --pythonpath PBL MEDISAFE_PBL.wsgi:application
+web: python manage.py collectstatic --noinput && gunicorn MEDISAFE_PBL.wsgi:application
