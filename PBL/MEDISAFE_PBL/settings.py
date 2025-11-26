@@ -109,19 +109,22 @@ WSGI_APPLICATION = 'MEDISAFE_PBL.wsgi.application'
 import dj_database_url
 
 # Railway uses DATABASE_URL; local dev uses individual vars
-if os.getenv('DATABASE_URL'):
+DATABASE_URL = os.getenv('DATABASE_URL')
+
+if DATABASE_URL:
+    # Railway production - use provided DATABASE_URL
     DATABASES = {
         'default': dj_database_url.config(
-            default=os.getenv('DATABASE_URL'),
+            default=DATABASE_URL,
             conn_max_age=600,
             conn_health_checks=True,
         )
     }
 else:
-    # Local development settings
+    # Local development settings (fallback)
     DATABASES = {
         'default': {
-            'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
+            'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.getenv('DB_NAME', 'medisafe'),
             'USER': os.getenv('DB_USER', 'postgres'),
             'PASSWORD': os.getenv('DB_PASSWORD', 'password'),
