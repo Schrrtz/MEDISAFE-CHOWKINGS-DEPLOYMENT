@@ -207,10 +207,17 @@ SECURE_CONTENT_SECURITY_POLICY = {
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.2/howto/static-files/
+
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR.parent / 'staticfiles'  # Points to PBL/staticfiles/
 STATICFILES_DIRS = [
-    BASE_DIR / 'myapp' / 'static',
+    BASE_DIR.parent / 'myapp' / 'static',
+    BASE_DIR.parent / 'myapp' / 'features' / 'doctors',
+    BASE_DIR.parent / 'myapp' / 'features' / 'home',
+    BASE_DIR.parent / 'myapp' / 'features' / 'medical',
+    BASE_DIR.parent / 'myapp' / 'features' / 'profiles',
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
