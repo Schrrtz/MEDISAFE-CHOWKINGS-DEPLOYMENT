@@ -163,7 +163,8 @@ def update_doctor_profile(request):
             with open(full_path, 'wb+') as destination:
                 for chunk in uploaded.chunks():
                     destination.write(chunk)
-            profile.photo_url = f"/media/{relative_path.replace('\\', '/')}"
+            normalized_path = relative_path.replace('\\', '/')
+            profile.photo_url = f"/media/{normalized_path}"
 
         # Update profile fields
         for field in ['first_name','middle_name','last_name','sex','birthday','address','phone_number','contact_person', 'contact_number']:

@@ -141,7 +141,8 @@ def update_profile_photo(request):
                 destination.write(chunk)
 
         # Update profile URL
-        photo_url_str = f"/media/{relative_path.replace('\\', '/')}"
+        normalized_path = relative_path.replace('\\', '/')
+        photo_url_str = f"/media/{normalized_path}"
         user_profile.photo_url = photo_url_str
         user_profile.save()
 
@@ -251,7 +252,8 @@ def update_profile(request):
                         for chunk in uploaded.chunks():
                             destination.write(chunk)
                     
-                    user_profile.photo_url = f"/media/{relative_path.replace('\\', '/')}"
+                    normalized_path = relative_path.replace('\\', '/')
+                    user_profile.photo_url = f"/media/{normalized_path}"
         
         # Update UserProfile fields
         userprofile_fields = [
