@@ -12,6 +12,18 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
+import os
+
+
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')  # loads .env file
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -97,21 +109,27 @@ WSGI_APPLICATION = 'MEDISAFE_PBL.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
+import os
+
+SECRET_KEY = os.getenv('y94je4d^4o8^y6@onxiu1*4bio_ubk+t6xgstm35zd54-z@n_-')
+DEBUG = os.getenv('DJANGO_DEBUG') == 'True'
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',')
+
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
         'NAME': os.getenv('DB_NAME', 'postgres'),
-        'USER': os.getenv('DB_USER', 'postgres.wqoluwmdzljpvzimjiyr'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'Chowkings6229521'),
-        'HOST': os.getenv('DB_HOST', 'aws-1-ap-southeast-1.pooler.supabase.com'),
+        'USER': os.getenv('DB_USER', ''),
+        'PASSWORD': os.getenv('DB_PASSWORD', ''),
+        'HOST': os.getenv('DB_HOST', ''),
         'PORT': os.getenv('DB_PORT', '5432'),
-        'OPTIONS': {
-            'sslmode': os.getenv('DB_SSLMODE', 'require'),
-        },
-        'CONN_MAX_AGE': int(os.getenv('DB_CONN_MAX_AGE', '0')),  # seconds
-        
+        'OPTIONS': {'sslmode': os.getenv('DB_SSLMODE', 'require')},
+        'CONN_MAX_AGE': int(os.getenv('DB_CONN_MAX_AGE', '0')),
     }
 }
+
+
 
 
 # Custom User Model
