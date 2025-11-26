@@ -25,6 +25,9 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-^_^z+g@c_wo-@$zq%wx
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG', 'True').lower() in ('1', 'true', 'yes', 'on')
+# Force DEBUG=False in production on Railway
+if os.getenv('RAILWAY_ENVIRONMENT_NAME') == 'production':
+    DEBUG = False
 
 # Railway domain + localhost
 ALLOWED_HOSTS = [
@@ -103,18 +106,29 @@ WSGI_APPLICATION = 'MEDISAFE_PBL.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
-        'NAME': os.getenv('DB_NAME', 'postgres'),
-        'USER': os.getenv('DB_USER', ''),
-        'PASSWORD': os.getenv('DB_PASSWORD', ''),
-        'HOST': os.getenv('DB_HOST', ''),
-        'PORT': os.getenv('DB_PORT', '5432'),
-        'OPTIONS': {'sslmode': os.getenv('DB_SSLMODE', 'require')},
-        'CONN_MAX_AGE': int(os.getenv('DB_CONN_MAX_AGE', '0')),
+import dj_database_url
+
+# Railway uses DATABASE_URL; local dev uses individual vars
+if os.getenv('DATABASE_URL'):
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.getenv('DATABASE_URL'),
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
     }
-}
+else:
+    # Local development settings
+    DATABASES = {
+        'default': {
+            'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
+            'NAME': os.getenv('DB_NAME', 'medisafe'),
+            'USER': os.getenv('DB_USER', 'postgres'),
+            'PASSWORD': os.getenv('DB_PASSWORD', 'password'),
+            'HOST': os.getenv('DB_HOST', 'localhost'),
+            'PORT': os.getenv('DB_PORT', '5432'),
+        }
+    }
 
 
 
@@ -192,7 +206,6 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'myapp' / 'static',
-    BASE_DIR / 'myapp' / 'features' / 'doctors',
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
