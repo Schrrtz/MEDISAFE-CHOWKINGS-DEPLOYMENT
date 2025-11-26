@@ -211,15 +211,19 @@ SECURE_CONTENT_SECURITY_POLICY = {
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR.parent / 'staticfiles'  # Points to PBL/staticfiles/
+# BASE_DIR resolves to PBL folder (due to sys.path in manage.py)
+# STATIC_ROOT goes to project root/staticfiles
+# STATICFILES_DIRS points to PBL/myapp/static
+STATIC_ROOT = BASE_DIR.parent / 'staticfiles'
 STATICFILES_DIRS = [
-    BASE_DIR.parent / 'myapp' / 'static',
+    BASE_DIR / 'myapp' / 'static',
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (User uploaded files)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR.parent / 'media'  # Points to PBL/media/
+# MEDIA_ROOT points to PBL/media
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Optional: Use S3 for media files in production
 if not DEBUG and os.getenv('USE_S3', 'False') == 'True':
